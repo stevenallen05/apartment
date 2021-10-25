@@ -15,7 +15,8 @@ jobs:
           ruby-version: "${{ steps.rv.outputs.RUBY_VERSION }}"
       - uses: reviewdog/action-rubocop@v1
         with:
+          filter_mode: nofilter
           reporter: github-check
-          rubocop_version: gemfile
-          rubocop_extensions: rubocop-rails:gemfile rubocop-rspec:gemfile rubocop-performance:gemfile
+          rubocop_version: 0.93.1
           github_token: ${{ secrets.github_token }}
+          rubocop_extensions: rubocop-performance:1.10.2 rubocop-rails:2.9.1 rubocop-rspec:1.44.1

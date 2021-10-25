@@ -162,6 +162,7 @@ module Apartment
         /SET lock_timeout/i,                          # new in postgresql 9.3
         /SET row_security/i,                          # new in postgresql 9.5
         /SET idle_in_transaction_session_timeout/i,   # new in postgresql 9.6
+        /SET default_table_access_method/i,           # new in postgresql 12
         /CREATE SCHEMA public/i,
         /COMMENT ON SCHEMA public/i
 
@@ -228,7 +229,7 @@ module Apartment
 
       # Temporary set Postgresql related environment variables if there are in @config
       #
-      def with_pg_env(&block)
+      def with_pg_env
         pghost = ENV['PGHOST']
         pgport = ENV['PGPORT']
         pguser = ENV['PGUSER']
@@ -239,7 +240,7 @@ module Apartment
         ENV['PGUSER'] = @config[:username].to_s if @config[:username]
         ENV['PGPASSWORD'] = @config[:password].to_s if @config[:password]
 
-        block.call
+        yield
       ensure
         ENV['PGHOST'] = pghost
         ENV['PGPORT'] = pgport
